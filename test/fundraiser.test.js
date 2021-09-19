@@ -93,6 +93,11 @@ contract("Fund raiser", (accounts) => {
       assert.equal(1, newDonationCount - currentDonationsCount),
         "myDonationsCount should increase by 1";
     });
-    it("includes donation in my donations");
+    it("includes donation in my donations", async () => {
+      await fundraiser.donate({ from: donor, value });
+      const { values, dates } = await fundraiser.myDonations({ from: donor });
+      assert.equal(value, values[0], "values should match");
+      assert(dates[0], "date should exists");
+    });
   });
 });
